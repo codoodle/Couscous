@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:Couscous.Pages"
+    x:Class="Couscous.AppShell"
+    Title="Couscous"
+    FlyoutBehavior="Disabled">
+
+    <TabBar>
+        <Tab Title="백엔드">
+            <Tab.Icon>
+                <FontImageSource FontFamily="Segoe Fluent Icons"
+                        Glyph="&#xE770;"/>
+            </Tab.Icon>
+            <ShellContent Title="프로젝트 만들기"
+                          ContentTemplate="{DataTemplate pages:BackendPage}"
+                          Route="home"/>
+        </Tab>
+        <Tab Title="프론트엔드">
+            <Tab.Icon>
+                <FontImageSource FontFamily="Segoe Fluent Icons"
+                        Glyph="&#xE772;"/>
+            </Tab.Icon>
+            <ShellContent Title="프로젝트 만들기"
+                          ContentTemplate="{DataTemplate pages:FrontendPage}"/>
+        </Tab>
+    </TabBar>
+    <ShellContent Title="설정"
+                  ContentTemplate="{DataTemplate pages:SettingsPage}"
+                  Route="settings"/>
+</Shell>

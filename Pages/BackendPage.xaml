@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:m="clr-namespace:Couscous.Models"
+             xmlns:vm="clr-namespace:Couscous.ViewModels"
+             x:Class="Couscous.Pages.BackendPage"
+             x:DataType="vm:BackendPageViewModel">
+
+    <ScrollView Padding="0,20,0,0">
+        <Grid Margin="20,0,20,0"
+              ColumnSpacing="5"
+              RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <CollectionView ItemsSource="{Binding Projects}"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="3"
+                            SelectionMode="Multiple"
+                            SelectedItems="{Binding SelectedProjects}"
+                            BackgroundColor="{AppThemeBinding Light=#F0F0F0, Dark=#1A1A1A}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:Project">
+                        <Grid Padding="10"
+                              ColumnSpacing="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="1"
+                                   Text="{Binding Name}"
+                                   FontAttributes="Bold"/>
+                            <Label Grid.Row="1"
+                                   Grid.Column="1"
+                                   Text="{Binding Description}"
+                                   Style="{StaticResource Description}"/>
+                            <Label Grid.Row="2"
+                                   Grid.Column="1"
+                                   Text="{Binding DownloadUri}"
+                                   Style="{StaticResource Description}"
+                                   FontAttributes="Italic"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Button Text="실행"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding CreateProjectCommand}"
+                    IsEnabled="{Binding SelectedProjects.Count, Converter={StaticResource intToBoolConverter}}"/>
+            <Button Text="프로젝트 만들기"
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Command="{Binding CreateProjectCommand}"
+                    IsEnabled="{Binding SelectedProjects.Count, Converter={StaticResource intToBoolConverter}}"/>
+        </Grid>
+    </ScrollView>
+</ContentPage>

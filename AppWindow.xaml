@@ -1,0 +1,119 @@
+<Window xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:local="clr-namespace:Couscous"
+        xmlns:vm="clr-namespace:Couscous.ViewModels"
+        x:Class="Couscous.AppWindow"
+        x:DataType="vm:AppWindowViewModel"
+        MinimumWidth="800"
+        MinimumHeight="600">
+    <Window.TitleBar>
+        <TitleBar Title="{Binding Title}"
+                  HeightRequest="48"
+                  Margin="0"
+                  Padding="0">
+            <TitleBar.LeadingContent>
+                <ImageButton WidthRequest="48"
+                             HeightRequest="48"
+                             BorderWidth="0"
+                             Padding="0"
+                             Margin="0"
+                             CornerRadius="0"
+                             BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}"
+                             IsVisible="{Binding CurrentIsSettingsPage, Source={RelativeSource AncestorType={x:Type vm:AppWindowViewModel}}}"
+                             Command="{Binding NavigateToHomeCommand, Source={RelativeSource AncestorType={x:Type vm:AppWindowViewModel}}}">
+                    <ImageButton.Source>
+                        <FontImageSource FontFamily="Segoe Fluent Icons"
+                                         Glyph="&#xE72B;"
+                                         Size="16"
+                                         Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                    </ImageButton.Source>
+                </ImageButton>
+            </TitleBar.LeadingContent>
+            <TitleBar.TrailingContent>
+                <ImageButton WidthRequest="48"
+                             HeightRequest="48"
+                             MinimumWidthRequest="36"
+                             MinimumHeightRequest="36"
+                             BorderWidth="0"
+                             Padding="0"
+                             Margin="0"
+                             CornerRadius="0"
+                             IsEnabled="{Binding CurrentIsSettingsPage, Converter={StaticResource invertedBoolConverter}, Source={RelativeSource AncestorType={x:Type vm:AppWindowViewModel}}}"
+                             BindingContext="{Binding Source={RelativeSource AncestorType={x:Type vm:AppWindowViewModel}}}"
+                             Command="{Binding NavigateToSettingsCommand}">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroupList>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding CurrentIsSettingsPage, Converter={StaticResource invertedBoolConverter}}"/>
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor"
+                                                Value="Transparent"/>
+                                        <Setter Property="Source">
+                                            <Setter.Value>
+                                                <FontImageSource FontFamily="Segoe Fluent Icons"
+                                                                 Glyph="&#xE713;"
+                                                                 Size="16"
+                                                                 Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor"
+                                                Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray200}}"/>
+                                        <Setter Property="Source">
+                                            <Setter.Value>
+                                                <FontImageSource FontFamily="Segoe Fluent Icons"
+                                                                 Glyph="&#xE713;"
+                                                                 Size="16"
+                                                                 Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor"
+                                                Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray200}}"/>
+                                        <Setter Property="Source">
+                                            <Setter.Value>
+                                                <FontImageSource FontFamily="Segoe Fluent Icons"
+                                                                 Glyph="&#xE713;"
+                                                                 Size="16"
+                                                                 Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="{Binding CurrentIsSettingsPage}"/>
+                                    </VisualState.StateTriggers>
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor"
+                                                Value="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray200}}"/>
+                                        <Setter Property="Source">
+                                            <Setter.Value>
+                                                <FontImageSource FontFamily="Segoe Fluent Icons"
+                                                                 Glyph="&#xE713;"
+                                                                 Size="16"
+                                                                 Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </VisualStateManager.VisualStateGroups>
+                </ImageButton>
+            </TitleBar.TrailingContent>
+        </TitleBar>
+    </Window.TitleBar>
+    <Window.Page>
+        <local:AppShell/>
+    </Window.Page>
+</Window>

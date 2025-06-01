@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:vm="clr-namespace:Couscous.ViewModels"
+			 x:Class="Couscous.Pages.SettingsPage"
+			 x:DataType="vm:SettingsPageViewModel">
+	<ScrollView>
+		<Grid Margin="20,0,20,0"
+			  ColumnSpacing="5"
+			  RowSpacing="10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*"/>
+				<ColumnDefinition Width="Auto"/>
+			</Grid.ColumnDefinitions>
+
+
+			<Label Text="깃 저장소"
+				   Grid.Row="0"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Margin="0,15,0,0"/>
+			<Entry Text="{Binding GitUri}"
+				   Grid.Row="1"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Fill"
+				   VerticalOptions="Center"/>
+			<Label Text="프로젝트의 Git 저장소 주소입니다. 이 주소는 선택한 프로젝트를 프로젝트를 다운로드할 때 사용됩니다."
+				   Grid.Row="2"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Style="{StaticResource Description}"/>
+
+			<Label Text="자바 홈"
+				   Grid.Row="3"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Margin="0,15,0,0"/>
+			<Entry Text="{Binding JavaHome}"
+				   Grid.Row="4"
+				   Grid.Column="0"
+				   HorizontalOptions="Fill"
+				   VerticalOptions="Center"
+				   IsReadOnly="True"/>
+			<ImageButton Grid.Row="4"
+						 Grid.Column="2"
+						 HorizontalOptions="Center"
+						 VerticalOptions="Center"
+						 WidthRequest="44"
+						 HeightRequest="44"
+						 Command="{Binding PickJavaHomeCommand}">
+				<ImageButton.Source>
+					<FontImageSource FontFamily="Segoe Fluent Icons"
+									 Glyph="&#xE838;"
+									 Size="16"/>
+				</ImageButton.Source>
+			</ImageButton>
+			<Label Text="자바 홈 경로를 설정합니다. 이 경로는 Java 개발 도구와 관련된 작업에 필요합니다."
+				   Grid.Row="5"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Style="{StaticResource Description}"/>
+
+			<Label Text="메이븐 홈"
+				   Grid.Row="6"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Margin="0,15,0,0"/>
+			<Entry Text="{Binding MavenHome}"
+				   Grid.Row="7"
+				   Grid.Column="0"
+				   HorizontalOptions="Fill"
+				   VerticalOptions="Center"
+				   IsReadOnly="True"/>
+			<ImageButton Grid.Row="7"
+						 Grid.Column="2"
+						 HorizontalOptions="Center"
+						 VerticalOptions="Center"
+						 WidthRequest="44"
+						 HeightRequest="44"
+						 Command="{Binding PickMavenHomeCommand}">
+				<ImageButton.Source>
+					<FontImageSource FontFamily="Segoe Fluent Icons"
+									 Glyph="&#xE838;"
+									 Size="16"
+									 />
+				</ImageButton.Source>
+			</ImageButton>
+			<Label Text="메이븐 홈 경로를 설정합니다. 이 경로는 Maven 빌드 도구와 관련된 작업에 필요합니다."
+				   Grid.Row="8"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Style="{StaticResource Description}"/>
+
+			<Label Text="백엔드 프로젝트 경로"
+				   Grid.Row="9"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Margin="0,15,0,0"/>
+			<Entry Text="{Binding BackendProjectPath}"
+				   Grid.Row="10"
+				   Grid.Column="0"
+				   HorizontalOptions="Fill"
+				   VerticalOptions="Center"
+				   IsReadOnly="True"/>
+			<ImageButton Grid.Row="10"
+						 Grid.Column="2"
+						 HorizontalOptions="Center"
+						 VerticalOptions="Center"
+						 WidthRequest="44"
+						 HeightRequest="44"
+						 Command="{Binding PickBackendProjectPathCommand}">
+				<ImageButton.Source>
+					<FontImageSource FontFamily="Segoe Fluent Icons"
+									 Glyph="&#xE838;"
+									 Size="16"
+									 />
+				</ImageButton.Source>
+			</ImageButton>
+			<Label Text="백엔드 프로젝트의 위치를 지정합니다."
+				   Grid.Row="11"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Style="{StaticResource Description}"/>
+
+			<Label Text="프론트엔드 프로젝트 경로"
+				   Grid.Row="12"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Margin="0,15,0,0"/>
+			<Entry Text="{Binding FrontendProjectPath}"
+				   Grid.Row="13"
+				   Grid.Column="0"
+				   HorizontalOptions="Fill"
+				   VerticalOptions="Center"
+				   IsReadOnly="True"/>
+			<ImageButton Grid.Row="13"
+						 Grid.Column="2"
+						 HorizontalOptions="Center"
+						 VerticalOptions="Center"
+						 WidthRequest="44"
+						 HeightRequest="44"
+						 Command="{Binding PickFrontendProjectPathCommand}">
+				<ImageButton.Source>
+					<FontImageSource FontFamily="Segoe Fluent Icons"
+									 Glyph="&#xE838;"
+									 Size="16"
+									 />
+				</ImageButton.Source>
+			</ImageButton>
+			<Label Text="프론트엔드 프로젝트의 위치를 지정합니다."
+				   Grid.Row="14"
+				   Grid.Column="0"
+				   Grid.ColumnSpan="2"
+				   HorizontalOptions="Start"
+				   VerticalOptions="Center"
+				   Style="{StaticResource Description}"/>
+		</Grid>
+	</ScrollView>
+
+</ContentPage>
