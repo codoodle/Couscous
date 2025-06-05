@@ -13,9 +13,9 @@ public class YamlMerger
     private readonly IDeserializer _deserializer;
     private readonly ISerializer _serializer;
 
-    public YamlMerger(List<string> ignorePaths = null)
+    public YamlMerger(IEnumerable<string> ignorePaths = null)
     {
-        _ignorePaths = ignorePaths ?? new List<string>();
+        _ignorePaths = ignorePaths?.ToList() ?? new List<string>();
 
         _deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -28,8 +28,8 @@ public class YamlMerger
 
     public Dictionary<string, object> Merge(string yaml1, string yaml2)
     {
-        var dict1 = _deserializer.Deserialize<Dictionary<string, object>>(yaml1);
-        var dict2 = _deserializer.Deserialize<Dictionary<string, object>>(yaml2);
+        var dict1 = _deserializer.Deserialize<Dictionary<string, object>>(yaml1) ?? new();
+        var dict2 = _deserializer.Deserialize<Dictionary<string, object>>(yaml2) ?? new();
 
         return DeepMerge(dict1, dict2, "");
     }
@@ -45,31 +45,29 @@ public class YamlMerger
         foreach (var kvp in overrideDict)
         {
             var key = kvp.Key;
-            var overrideValue = kvp.Value;
             var fullPath = string.IsNullOrEmpty(pathPrefix) ? key : $"{pathPrefix}.{key}";
 
-            if (_ignorePaths.Contains(fullPath))
-                continue;
+            if (ShouldIgnorePath(fullPath)) continue;
 
-            if (baseDict.TryGetValue(key, out var baseValue))
+            var overrideValue = kvp.Value;
+            baseDict.TryGetValue(key, out var baseValue);
+
+            if (overrideValue is Dictionary<object, object> overrideSubDict)
             {
-                if (baseValue is Dictionary<object, object> baseSubDict &&
-                    overrideValue is Dictionary<object, object> overrideSubDict)
-                {
-                    baseDict[key] = DeepMerge(
-                        ConvertToStringKeyDict(baseSubDict),
-                        ConvertToStringKeyDict(overrideSubDict),
-                        fullPath
-                    );
-                }
-                else if (baseValue is IList baseList && overrideValue is IList overrideList)
-                {
-                    baseDict[key] = MergeLists(baseList, overrideList);
-                }
-                else
-                {
-                    baseDict[key] = overrideValue;
-                }
+                var overrideSub = ConvertToStringKeyDict(overrideSubDict);
+                var baseSub = baseValue is Dictionary<object, object> baseSubDict
+                    ? ConvertToStringKeyDict(baseSubDict)
+                    : new Dictionary<string, object>();
+
+                baseDict[key] = DeepMerge(baseSub, overrideSub, fullPath);
+            }
+            else if (overrideValue is IList overrideList)
+            {
+                var mergedList = baseValue is IList baseList
+                    ? MergeLists(baseList, overrideList)
+                    : overrideList.Cast<object>().ToList();
+
+                baseDict[key] = mergedList;
             }
             else
             {
@@ -80,16 +78,20 @@ public class YamlMerger
         return baseDict;
     }
 
+    private bool ShouldIgnorePath(string fullPath)
+    {
+        return _ignorePaths.Any(ignore =>
+            fullPath.Equals(ignore, StringComparison.OrdinalIgnoreCase) ||
+            fullPath.StartsWith(ignore + ".", StringComparison.OrdinalIgnoreCase));
+    }
+
     private static List<object> MergeLists(IList list1, IList list2)
     {
         var merged = new List<object>(list1.Cast<object>());
-
         foreach (var item in list2)
         {
-            if (!merged.Contains(item)) // 중복 제거
-                merged.Add(item);
+            if (!merged.Contains(item)) merged.Add(item);
         }
-
         return merged;
     }
 
